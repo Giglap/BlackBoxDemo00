@@ -18,7 +18,7 @@
 
         </Grid.ColumnDefinitions>
         <MediaElement Name="VideoPlayer"
-            Source="c:\users\jimcr\source\repos\blackboxdemo00\blackboxdemo00\videos\Video.mp4"
+            Source="c:\users\jimcr\source\repos\blackboxdemo00\blackboxdemo00\videos\VID-20200316-WA0001.mp4"
             Grid.Row="0" Grid.Column="0" 
             Stretch="Uniform"
             LoadedBehavior="Manual"

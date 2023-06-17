@@ -33,7 +33,7 @@
             <ColumnDefinition Width="40" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
+        <ProgressBar x:Name="ProgBar" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" Opacity=".6"  />
         <Button Grid.Row="2" Grid.Column="1" Opacity=".6" Style="{StaticResource ImageButtonStyle}" 
                 Click="Pause_Click"
                 MouseEnter="ButtonBright"
@@ -89,7 +89,7 @@
                    Foreground="LimeGreen"
                    FontSize="32"
                    x:Name="TimeDisplay"
-                   HorizontalAlignment="Left">
+                   HorizontalAlignment="Right">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="4" Direction="330" Color="Black" Opacity="0.5" BlurRadius="4"/>
             </TextBlock.Effect>

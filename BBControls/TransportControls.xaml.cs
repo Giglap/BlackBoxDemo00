@@ -59,7 +59,8 @@ namespace BBControls
         {
            string Elapsed = convertSecondsToTimeString(elapsed);
            string NaturalDuration = convertSecondsToTimeString(naturalDuration);
-            TimeDisplay.Text = $"     {Elapsed} / {NaturalDuration}";
+            TimeDisplay.Text = $"     {Elapsed} / {NaturalDuration}     ";
+            ProgBar.Value = elapsed;
         }
 
         private string convertSecondsToTimeString(double Seconds)
@@ -72,6 +73,7 @@ namespace BBControls
         private void OnMediaOpened(object sender, RoutedEventArgs e)
         {
             _naturalDuration = _player.NaturalDuration.TimeSpan.TotalSeconds;
+            ProgBar.Maximum = _naturalDuration;
         }
         private void Pause_Click(object sender, RoutedEventArgs e)
         {
