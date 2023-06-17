@@ -1,0 +1,32 @@
+﻿<Window xmlns:BBControls="clr-namespace:BBControls;assembly=BBControls"  x:Class="BlackBoxDemo00.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BlackBoxDemo00"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        Background="Black"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="700" Width="1280">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+
+        </Grid.ColumnDefinitions>
+        <MediaElement Name="VideoPlayer"
+            Source="c:\users\jimcr\source\repos\blackboxdemo00\blackboxdemo00\videos\Video.mp4"
+            Grid.Row="0" Grid.Column="0" 
+            Stretch="Uniform"
+            LoadedBehavior="Manual"
+            />
+        <BBControls:TransportControls 
+            Grid.Row="0" Grid.Column="0" 
+             x:Name="TransportControls"
+            VerticalAlignment="Bottom" Loaded="TransportControls_Loaded"
+            />
+    </Grid>
+</Window>
