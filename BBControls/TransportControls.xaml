@@ -19,7 +19,7 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="5" />
+            <RowDefinition Height="10" />
             <RowDefinition Height="5" />
             <RowDefinition Height="40" />
             <RowDefinition Height="10" />
@@ -34,58 +34,66 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <ProgressBar x:Name="ProgBar" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" Opacity=".6"  />
-        <Button Grid.Row="2" Grid.Column="1" Opacity=".6" Style="{StaticResource ImageButtonStyle}" 
-                Click="Pause_Click"
-                MouseEnter="ButtonBright"
-                MouseLeave="ButtonDim"
-                MouseLeftButtonDown="Button_MouseLeftButtonDown"
-                MouseLeftButtonUp="Button_MouseLeftButtonUp"
-                >
-            <Image Source="/BBControls;component/Images/Pause1.png" Stretch="Fill" />
-        </Button>
 
-        <Button Grid.Row="2" Grid.Column="2" Opacity=".6" Style="{StaticResource ImageButtonStyle}"
-                Click="Play_Click" 
-                MouseEnter="ButtonBright"
-                MouseLeave="ButtonDim"
-                MouseLeftButtonDown="Button_MouseLeftButtonDown"
-                MouseLeftButtonUp="Button_MouseLeftButtonUp"
-                >
-            <Image Source="/BBControls;component/Images/Play1.png" Stretch="Fill" />
-        </Button>
+        <Slider x:Name="SliderBar"
+                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="7" 
+                Opacity="1" 
+                Panel.ZIndex="5"
+                IsEnabled="True"
+                IsHitTestVisible="True"
+                PreviewMouseLeftButtonDown="SliderBar_MouseLeftButtonDown"
+                PreviewMouseLeftButtonUp="SliderBar_MouseLeftButtonUp" />
 
-        <Button Grid.Row="2" Grid.Column="3" Opacity=".6" Style="{StaticResource ImageButtonStyle}" 
-                Click="Stop_Click" 
-                MouseEnter="ButtonBright"
-                MouseLeave="ButtonDim"
-                MouseLeftButtonDown="Button_MouseLeftButtonDown"
-                MouseLeftButtonUp="Button_MouseLeftButtonUp"
-                >
-            <Image Source="/BBControls;component/Images/Stop1.png" Stretch="Fill" />
-        </Button>
 
-        <Button Grid.Row="2" Grid.Column="4" Opacity=".6" Style="{StaticResource ImageButtonStyle}" 
-                Click="SkipBack_Click" 
-                MouseEnter="ButtonBright"
-                MouseLeave="ButtonDim"
-                MouseLeftButtonDown="Button_MouseLeftButtonDown"
-                MouseLeftButtonUp="Button_MouseLeftButtonUp"
-                >
-            <Image Source="/BBControls;component/Images/Back1.png" Stretch="Fill" />
-        </Button>
 
-        <Button Grid.Row="2" Grid.Column="5" Opacity=".6" Style="{StaticResource ImageButtonStyle}" 
-                Click="SkipFwd_Click" 
+
+        <Image Source="/BBControls;component/Images/Pause1.png"
+                x:Name="Pause"
+                Grid.Row="2" Grid.Column="1" Opacity=".6"
                 MouseEnter="ButtonBright"
                 MouseLeave="ButtonDim"
-                MouseLeftButtonDown="Button_MouseLeftButtonDown"
-                MouseLeftButtonUp="Button_MouseLeftButtonUp"
-                >
-            <Image Source="/BBControls;component/Images/Next1.png" Stretch="Fill" />
-        </Button>
+                MouseLeftButtonDown="Pause_MouseLeftButtonDown"
+                MouseLeftButtonUp="transportImage_MouseLeftButtonUp"
+                Stretch="Fill" />
+
+        <Image Source="/BBControls;component/Images/Play1.png"
+                x:Name="Play"
+                Grid.Row="2" Grid.Column="2" Opacity=".6"
+                MouseEnter="ButtonBright"
+                MouseLeave="ButtonDim"
+                MouseLeftButtonDown="Play_MouseLeftButtonDown"
+                MouseLeftButtonUp="transportImage_MouseLeftButtonUp"
+                Stretch="Fill" />
+
+        <Image Source="/BBControls;component/Images/Stop1.png"
+                x:Name="Stop"
+                Grid.Row="2" Grid.Column="3" Opacity=".6"
+                MouseEnter="ButtonBright"
+                MouseLeave="ButtonDim"
+                MouseLeftButtonDown="Stop_MouseLeftButtonDown"
+                MouseLeftButtonUp="transportImage_MouseLeftButtonUp"
+                Stretch="Fill" />
+
+        <Image Source="/BBControls;component/Images/Back1.png"
+                x:Name="SkipBack"
+                Grid.Row="2" Grid.Column="4" Opacity=".6"
+                MouseEnter="ButtonBright"
+                MouseLeave="ButtonDim"
+                MouseLeftButtonDown="SkipBack_MouseLeftButtonDown"
+                MouseLeftButtonUp="transportImage_MouseLeftButtonUp"
+                Stretch="Fill" />
+
+        <Image Source="/BBControls;component/Images/Next1.png"
+                x:Name="SkipFwd"
+                Grid.Row="2" Grid.Column="5" Opacity=".6"
+                MouseEnter="ButtonBright"
+                MouseLeave="ButtonDim"
+                MouseLeftButtonDown="SkipFwd_MouseLeftButtonDown"
+                MouseLeftButtonUp="transportImage_MouseLeftButtonUp"
+                Stretch="Fill" />
 
         <TextBlock Grid.Row="2" Grid.Column="6" 
-                   Text="   00:00:00 / 00:00:00" 
+                   Text="   00:00:00 / 00:00:00     " 
                    Foreground="LimeGreen"
                    FontSize="32"
                    x:Name="TimeDisplay"

@@ -18,15 +18,81 @@
 
         </Grid.ColumnDefinitions>
         <MediaElement Name="VideoPlayer"
-            Source="c:\users\jimcr\source\repos\blackboxdemo00\blackboxdemo00\videos\VID-20200316-WA0001.mp4"
+            Source="C:\Users\jimcr\Videos\BBTestVideos\Movies\Avatar219.mp4"
             Grid.Row="0" Grid.Column="0" 
             Stretch="Uniform"
             LoadedBehavior="Manual"
+            MediaEnded="VideoPlayer_MediaEnded"
             />
         <BBControls:TransportControls 
             Grid.Row="0" Grid.Column="0" 
+            Panel.ZIndex="20"
              x:Name="TransportControls"
             VerticalAlignment="Bottom" Loaded="TransportControls_Loaded"
             />
+        <Canvas 
+            Grid.Row="0" Grid.Column="0" 
+            x:Name="AnnoPanel"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Right"
+            Width="800"
+            Height="1000"
+            Background="Blue"
+            Opacity=".7">
+
+            <TabControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                        Padding="40"
+                        Background="Transparent"
+                        >
+                <TabItem Header="Annotations">
+                    <ListBox
+                        
+                        Width="200"
+                        Height="400"
+                        Opacity="1">
+                        <ListBoxItem>#VirginShame</ListBoxItem>
+                        <ListBoxItem>#WereNotSoDifferent</ListBoxItem>
+                        <ListBoxItem>#MotherHoodSucks</ListBoxItem>
+                        <ListBoxItem>#JesusIsMyth</ListBoxItem>
+                        <ListBoxItem>#TransIsGood</ListBoxItem>
+                        <ListBoxItem>#HomoIsVirtue</ListBoxItem>
+                        <ListBoxItem>#MisquoteBible</ListBoxItem>
+                        <ListBoxItem>#Strawman</ListBoxItem>
+                        <ListBoxItem>#VirginShame</ListBoxItem>
+                        <ListBoxItem>#WereNotSoDifferent</ListBoxItem>
+                        <ListBoxItem>#MotherHoodSucks</ListBoxItem>
+                        <ListBoxItem>#JesusIsMyth</ListBoxItem>
+                        <ListBoxItem>#TransIsGood</ListBoxItem>
+                        <ListBoxItem>#HomoIsVirtue</ListBoxItem>
+                        <ListBoxItem>#MisquoteBible</ListBoxItem>
+                        <ListBoxItem>#Strawman</ListBoxItem>
+                        <ListBoxItem>#VirginShame</ListBoxItem>
+                        <ListBoxItem>#WereNotSoDifferent</ListBoxItem>
+                        <ListBoxItem>#MotherHoodSucks</ListBoxItem>
+                        <ListBoxItem>#JesusIsMyth</ListBoxItem>
+                        <ListBoxItem>#TransIsGood</ListBoxItem>
+                        <ListBoxItem>#HomoIsVirtue</ListBoxItem>
+                        <ListBoxItem>#MisquoteBible</ListBoxItem>
+                        <ListBoxItem>#Strawman</ListBoxItem>
+                        <ListBoxItem>#VirginShame</ListBoxItem>
+                        <ListBoxItem>#WereNotSoDifferent</ListBoxItem>
+                        <ListBoxItem>#MotherHoodSucks</ListBoxItem>
+                        <ListBoxItem>#JesusIsMyth</ListBoxItem>
+                        <ListBoxItem>#TransIsGood</ListBoxItem>
+                        <ListBoxItem>#HomoIsVirtue</ListBoxItem>
+                        <ListBoxItem>#MisquoteBible</ListBoxItem>
+                        <ListBoxItem>#Strawman</ListBoxItem>
+                    </ListBox>
+                </TabItem>
+                <TabItem Header="Editor">
+                    <!-- Tab 2 content here -->
+                </TabItem>
+                <TabItem Header="Auditor">
+                    <!-- Tab 3 content here -->
+                </TabItem>
+            </TabControl>
+
+
+        </Canvas>
     </Grid>
 </Window>

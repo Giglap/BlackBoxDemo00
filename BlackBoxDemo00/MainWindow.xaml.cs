@@ -98,13 +98,24 @@ namespace BlackBoxDemo00
             }
             if (e.Key == Key.Q)  // Hide transport controls
             {
-               if(TransportControls.Visibility.ToString() == "Visible")
+                if (TransportControls.Visibility.ToString() == "Visible")
                 {
                     TransportControls.Visibility = Visibility.Hidden;
                 }
                 else
                 {
                     TransportControls.Visibility = Visibility.Visible;
+                }
+            }
+            if (e.Key == Key.A)  // Hide Annotation Panel
+            {
+                if (AnnoPanel.Visibility.ToString() == "Visible")
+                {
+                    AnnoPanel.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    AnnoPanel.Visibility = Visibility.Visible;
                 }
             }
         }
@@ -120,6 +131,12 @@ namespace BlackBoxDemo00
         private void TransportControls_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void VideoPlayer_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            VideoPlayer.Position = new TimeSpan();
+            VideoPlayer.Play();
         }
     }
 }

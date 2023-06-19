@@ -24,6 +24,7 @@ namespace BBControls
         MediaElement _player = null;
         double _naturalDuration = 0;
         Timer VideoPoll;
+        bool _updateTime = true;
         public TransportControls()
         {
             InitializeComponent();
@@ -37,6 +38,7 @@ namespace BBControls
 
         private void VideoPollCallback(object? blahNull)
         {
+            if(!_updateTime) { return;  }
             double elapsed;
             try
             {
@@ -61,6 +63,7 @@ namespace BBControls
            string NaturalDuration = convertSecondsToTimeString(naturalDuration);
             TimeDisplay.Text = $"     {Elapsed} / {NaturalDuration}     ";
             ProgBar.Value = elapsed;
+            SliderBar.Value = elapsed;
         }
 
         private string convertSecondsToTimeString(double Seconds)
@@ -74,45 +77,89 @@ namespace BBControls
         {
             _naturalDuration = _player.NaturalDuration.TimeSpan.TotalSeconds;
             ProgBar.Maximum = _naturalDuration;
+            SliderBar.Maximum = _naturalDuration;   
         }
-        private void Pause_Click(object sender, RoutedEventArgs e)
-        {
-            _player.Pause();
-        }
-        private void Play_Click(object sender, RoutedEventArgs e)
-        {
-            _player.Play();
-        }
-        private void Stop_Click(object sender, RoutedEventArgs e)
-        {
-            _player.Stop();
-        }
-        private void SkipBack_Click(object sender, RoutedEventArgs e)
-        {
-            _player.Position = _player.Position.Add(new TimeSpan(0, 0, 0, -5, 0));
-
-        }
-        private void SkipFwd_Click(object sender, RoutedEventArgs e)
-        {
-            _player.Position = _player.Position.Add(new TimeSpan(0, 0, 0, 5, 0));
-        }
+ 
         private void ButtonDim(object sender, MouseEventArgs e)
         {
-            ((Button)sender).Opacity = .6;
+            if (sender is Button)
+            {
+                ((Button)sender).Opacity = .6;
+            }
+            else if (sender is Image)
+            {
+                ((Image)sender).Opacity = .6;
+            }
+           
         }
         private void ButtonBright(object sender, MouseEventArgs e)
         {
-            ((Button)sender).Opacity = 1;
+            if (sender is Button)
+            {
+                ((Button)sender).Opacity = 1;
+            }
+            else if (sender is Image)
+            {
+                ((Image)sender).Opacity = 1;
+            }
         }
 
         private void Button_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            ((Button)sender).Margin = new Thickness(((Button)sender).Margin.Left + 25, ((Button)sender).Margin.Top + 25, 0, 0);
+            ((Image)sender).Margin = new Thickness(((Image)sender).Margin.Left + 25, ((Image)sender).Margin.Top + 25, 0, 0);
         }
 
         private void Button_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ((Button)sender).Margin = new Thickness(((Button)sender).Margin.Left - 25, ((Button)sender).Margin.Top - 25, 0, 0);
+            ((Image)sender).Margin = new Thickness(((Image)sender).Margin.Left - 25, ((Image)sender).Margin.Top - 25, 0, 0);
+        }
+
+        private void SliderBar_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            _player.Position = new TimeSpan(0,0,0, (int)SliderBar.Value,0);
+            _updateTime = true;
+        }
+
+        private void SliderBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _updateTime = false;
+        }
+
+
+
+        private void Play_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _player.Play();
+            Play.Margin = new Thickness(1,1,0,0);
+        }
+
+        private void transportImage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ((Image)sender).Margin = new Thickness(0, 0, 0, 0);
+        }
+
+        private void Pause_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _player.Pause();
+            ((Image)sender).Margin = new Thickness(1, 1, 0, 0);
+        }
+
+        private void Stop_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _player.Stop();
+            ((Image)sender).Margin = new Thickness(1, 1, 0, 0);
+        }
+
+        private void SkipBack_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _player.Position = _player.Position.Add(new TimeSpan(0, 0, 0, -5, 0));
+            ((Image)sender).Margin = new Thickness(1, 1, 0, 0);
+        }
+
+        private void SkipFwd_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _player.Position = _player.Position.Add(new TimeSpan(0, 0, 0, 30, 0));
+            ((Image)sender).Margin = new Thickness(1, 1, 0, 0);
         }
     }
 }
