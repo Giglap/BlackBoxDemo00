@@ -22,15 +22,50 @@ namespace BlackBoxDemo00
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool PreviewKeyEvents=true;
+
         public MainWindow()
         {
             InitializeComponent();
-            VideoPlayer.Play();
-            VideoPlayer.IsMuted = true;
+            //VideoPlayer.Play();
+            //VideoPlayer.IsMuted = false;
             TransportControls.InitializeControls(VideoPlayer);
+            Anno.Initialize(VideoPlayer);
+
+
+            //// Create OpenFileDialog
+            //Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            //// Set filter for file extension and default file extension
+            //dlg.DefaultExt = ".mp4";
+            //dlg.Filter = "mp4 Files (*.mp4)|*.mp4|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+
+            //// Display OpenFileDialog by calling ShowDialog method
+            //Nullable<bool> result = dlg.ShowDialog();
+
+            //// Get the selected file name and display in a TextBox
+            //if (result == true)
+            //{
+            //    // Open document
+            //    string filename = dlg.FileName;
+            //    //textBox1.Text = filename;
+            //    VideoPlayer.Source = new Uri(filename);
+            //}
+
+
+
         }
+       
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (!PreviewKeyEvents)
+            {
+                return;
+            }
+            if(e.Key == Key.D) 
+            {
+                _ = Anno.DropMarker();
+            }
             MediaState state = GetMediaState(VideoPlayer);
             if (e.Key == Key.T)
             {
@@ -109,16 +144,17 @@ namespace BlackBoxDemo00
             }
             if (e.Key == Key.A)  // Hide Annotation Panel
             {
-                if (AnnoPanel.Visibility.ToString() == "Visible")
+                if (Anno.Visibility.ToString() == "Visible")
                 {
-                    AnnoPanel.Visibility = Visibility.Hidden;
+                    Anno.Visibility = Visibility.Hidden;
                 }
                 else
                 {
-                    AnnoPanel.Visibility = Visibility.Visible;
+                    Anno.Visibility = Visibility.Visible;
                 }
             }
         }
+        
         private MediaState GetMediaState(MediaElement myMedia)
         {
             FieldInfo hlp = typeof(MediaElement).GetField("_helper", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -137,6 +173,28 @@ namespace BlackBoxDemo00
         {
             VideoPlayer.Position = new TimeSpan();
             VideoPlayer.Play();
+        }
+
+        private void Anno_Annotator_tb_GotFocus(object sender, EventArgs e)
+        {
+            PreviewKeyEvents = false;
+        }
+
+        private void Anno_Annotator_tb_LostFocus(object sender, EventArgs e)
+        {
+            PreviewKeyEvents = true;
+        }
+
+        private void VideoPlayer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (GetMediaState(VideoPlayer) == MediaState.Play)
+            {
+                VideoPlayer.Pause();
+            }
+            else
+            {
+                VideoPlayer.Play();
+            }
         }
     }
 }
