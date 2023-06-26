@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -92,6 +93,7 @@ namespace BBControls
             }
            
         }
+        
         private void ButtonBright(object sender, MouseEventArgs e)
         {
             if (sender is Button)
@@ -125,10 +127,9 @@ namespace BBControls
             _updateTime = false;
         }
 
-
-
         private void Play_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            _player.ScrubbingEnabled = false;   
             _player.Play();
             Play.Margin = new Thickness(1,1,0,0);
         }
@@ -140,12 +141,14 @@ namespace BBControls
 
         private void Pause_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            _player.ScrubbingEnabled = true;   
             _player.Pause();
             ((Image)sender).Margin = new Thickness(1, 1, 0, 0);
         }
 
         private void Stop_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            _player.ScrubbingEnabled = true;
             _player.Stop();
             ((Image)sender).Margin = new Thickness(1, 1, 0, 0);
         }
@@ -160,6 +163,15 @@ namespace BBControls
         {
             _player.Position = _player.Position.Add(new TimeSpan(0, 0, 0, 30, 0));
             ((Image)sender).Margin = new Thickness(1, 1, 0, 0);
+        }
+        
+        private MediaState GetMediaState(MediaElement myMedia)
+        {
+            FieldInfo hlp = typeof(MediaElement).GetField("_helper", BindingFlags.NonPublic | BindingFlags.Instance);
+            object helperObject = hlp.GetValue(myMedia);
+            FieldInfo stateField = helperObject.GetType().GetField("_currentState", BindingFlags.NonPublic | BindingFlags.Instance);
+            MediaState state = (MediaState)stateField.GetValue(helperObject);
+            return state;
         }
     }
 }

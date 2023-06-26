@@ -100,7 +100,7 @@ namespace BlackBoxDemo00
             {
                 if (state == MediaState.Play || state == MediaState.Pause)
                 {
-                    VideoPlayer.Position = VideoPlayer.Position.Add(new TimeSpan(0, 0, 0, -30, 0));
+                    VideoPlayer.Position = VideoPlayer.Position.Add(new TimeSpan(0, 0, 0, -5, 0));
                 }
             }
             if (e.Key == Key.P)

@@ -6,6 +6,101 @@
              xmlns:local="clr-namespace:BBControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        <Style x:Key="RoundCorner" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" CornerRadius="8" BorderBrush="Black" BorderThickness="2" Background="White">
+                            <ContentPresenter x:Name="content" HorizontalAlignment="Center"  VerticalAlignment="Top"  TextElement.FontWeight="Normal"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- This trigger changes the background color to light blue when the mouse is over the button -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightBlue"/>
+                            </Trigger>
+                            <!-- This trigger changes the background color to black and the font color to white when the button is pressed -->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="Black"/>
+                                <Setter TargetName="content" Property="TextElement.Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RoundCornerListBox" TargetType="{x:Type ListBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <Border x:Name="border" CornerRadius="8" BorderBrush="Black" BorderThickness="2" Background="White">
+                            <ScrollViewer>
+                                <ItemsPresenter/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RoundCornerTextBox" TargetType="{x:Type TextBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border x:Name="border" CornerRadius="8" BorderBrush="Black" BorderThickness="2" Background="White">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RoundCornerComboBox" TargetType="{x:Type ComboBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <!-- This is the main border that gives the rounded corners to the ComboBox -->
+                            <Border x:Name="border" Grid.ColumnSpan="2" CornerRadius="8" BorderBrush="Black" BorderThickness="2" Background="White"/>
+                            <!-- This is the toggle button that shows or hides the popup -->
+                            <ToggleButton x:Name="toggleButton" Grid.Column="1" Content="▼" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                <!-- This is the custom ControlTemplate for the toggle button -->
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <!-- This is the border that gives the rounded corners to the toggle button -->
+                                        <Border x:Name="toggleBorder" CornerRadius="8" BorderBrush="Transparent" BorderThickness="0">
+                                            <!-- This is the content presenter that shows the content of the toggle button -->
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <!-- This is the content presenter that shows the selected item -->
+                            <ContentPresenter x:Name="contentPresenter" Grid.Column="0" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="{TemplateBinding Padding}"/>
+                            <!-- This is the popup that shows the items -->
+                            <Popup x:Name="popup" IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom">
+                                <!-- This is another border that gives the rounded corners to the popup -->
+                                <Border x:Name="popupBorder" CornerRadius="8" BorderBrush="Black" BorderThickness="2" Background="White">
+                                    <!-- This is the scroll viewer that allows scrolling through the items -->
+                                    <ScrollViewer>
+                                        <!-- This is the items presenter that shows the items -->
+                                        <ItemsPresenter/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+    </UserControl.Resources>
+
     <Grid
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
@@ -25,6 +120,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Button x:Name="BtnDropMarker" 
+                Style="{StaticResource RoundCorner}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch" 
                 Click="BtnDropMarker_Click"
@@ -33,6 +129,7 @@
                 Content="Mark" FontSize="20"
                 />
         <Button x:Name="BtnListRefresh" 
+                Style="{StaticResource RoundCorner}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch" 
                 Click="BtnListRefresh_Click"
@@ -41,6 +138,7 @@
                 Content="Refresh" FontSize="20"
                 />
         <Button x:Name="BtnListItemUpdate" 
+                Style="{StaticResource RoundCorner}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch" 
                 Click="BtnListItemUpdate_Click"
@@ -49,6 +147,7 @@
                 Content="Update" FontSize="20"
                 />
         <Button x:Name="BtnListItemDelete" 
+                Style="{StaticResource RoundCorner}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch" 
                 Click="BtnListItemDelete_Click"
@@ -83,17 +182,21 @@
                 FontSize="16"
                 />
         <ListBox
-                x:Name="MarkerList"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch" 
-                Foreground="Black"
-                Grid.Row="3"
-                Grid.Column="0"
-                MouseDoubleClick="MarkerList_MouseDoubleClick"
-                SelectionChanged="MarkerList_SelectionChanged"
-                KeyDown="MarkerList_KeyDown"
+            x:Name="MarkerList"
+            Style="{StaticResource RoundCornerListBox}"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" 
+            Foreground="Black"
+            Grid.Row="3"
+            Grid.Column="0"
+            FontSize="18"
+            MouseDoubleClick="MarkerList_MouseDoubleClick"
+            SelectionChanged="MarkerList_SelectionChanged"
+            KeyDown="MarkerList_KeyDown"
+            PreviewMouseWheel="MarkerList_MouseWheel"   
             />
         <ComboBox
+            Style="{StaticResource RoundCornerComboBox}"
             Grid.Row="0"
             Grid.Column="0"
             x:Name="cmbMovie"
@@ -139,6 +242,7 @@
                 />
             <TextBox
                 x:Name="tbTitle"
+                Style="{StaticResource RoundCornerTextBox}"
                 Grid.Row="2"
                 Grid.Column="1" FontSize="18"
                 Grid.ColumnSpan="4"
@@ -156,8 +260,10 @@
                 />
             <TextBox
                 x:Name="tbDescription"
+                Style="{StaticResource RoundCornerTextBox}"
                 Grid.Row="4"
-                Grid.Column="1" FontSize="12"
+                Grid.Column="1"
+                FontSize="18"
                 AcceptsReturn="True"
                 TextWrapping="Wrap"
                 VerticalScrollBarVisibility="Auto"
@@ -176,8 +282,10 @@
                 />
             <TextBox
                 x:Name="tbHashtags"
+                Style="{StaticResource RoundCornerTextBox}"
                 Grid.Row="6"
-                Grid.Column="1" FontSize="12"
+                Grid.Column="1"             
+                FontSize="18"
                 AcceptsReturn="True"
                 TextWrapping="Wrap"
                 VerticalScrollBarVisibility="Auto"

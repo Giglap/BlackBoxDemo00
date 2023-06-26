@@ -51,7 +51,7 @@
             Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
             Panel.ZIndex="0"
             Stretch="Uniform"
-            IsMuted="True"
+            IsMuted="False"
             LoadedBehavior="Manual"
             MouseLeftButtonDown="VideoPlayer_MouseLeftButtonDown"
             MediaEnded="VideoPlayer_MediaEnded"

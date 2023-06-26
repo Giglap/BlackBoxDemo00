@@ -31,6 +31,7 @@ namespace BBControls
         public event EventHandler? Annotator_tb_LostFocus;
         WebApiHelper Wah = new WebApiHelper();
         MediaElement _player = new MediaElement();
+        double _naturalDuration = 0;
         List<Show> Shows = new List<Show>();
         Show? show = new Show();
         Annotation currentAnnotation = new Annotation();
@@ -91,12 +92,50 @@ namespace BBControls
                 User = "jamescr"
             });
 
+            Shows.Add(new Show()
+            {
+                Title = "S03E14-Voyage of the Damned",
+                ImdbId = "tt1061123",
+                Path = @"C:\Users\jimcr\Videos\BBTestVideos\Doctor Who\S03E14-Voyage of the Damned.mp4",
+                User = "jamescr"
+            });
+
+            Shows.Add(new Show()
+            {
+                Title = "S02E07-The Scimitar",
+                ImdbId = "tt4094332",
+                Path = @"C:\Users\jimcr\Videos\BBTestVideos\S02E07-The Scimitar.mp4",
+                User = "jamescr"
+            });
+
+            Shows.Add(new Show()
+            {
+                Title = "House - Damned If You Do",
+                ImdbId = "tt0606018",
+                Path = @"C:\Users\jimcr\Videos\BBTestVideos\WMV\105 - House - 01 - 06 - Damned If You Do.wmv",
+                User = "jamescr"
+            }); 
+            
+            Shows.Add(new Show()
+            {
+                Title = "House - The Socratic Method",
+                ImdbId = "tt0606045",
+                Path = @"C:\Users\jimcr\Videos\BBTestVideos\WMV\106 - House - 01 - 03 - The Socratic Method.wmv",
+                User = "jamescr"
+            });
+
             foreach (Show show in Shows)
             {
                 cmbMovie.Items.Add(show);
                 cmbMovie.DisplayMemberPath = "Title";
             }
         }
+
+        private void OnMediaOpened(object sender, RoutedEventArgs e)
+        {
+            _naturalDuration = _player.NaturalDuration.TimeSpan.TotalSeconds;
+        }
+
         private async void cmbMovie_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             show = (Show)cmbMovie.SelectedItem;
@@ -107,11 +146,12 @@ namespace BBControls
             annos = await Wah.GetAnnosForIdAndUser(show.ImdbId, show.User);
             populateTimeIndexList(annos);
             _player.Play();
-            
+
         }
         public void Initialize(MediaElement player)
         {
             _player = player;
+            _player.MediaOpened += OnMediaOpened;
             show = Shows.FirstOrDefault();
 
         }
@@ -158,6 +198,7 @@ namespace BBControls
         private void BtnListItemUpdate_Click(object sender, RoutedEventArgs e)
         {
             int selected = MarkerList.SelectedIndex;
+            if (selected < 0) { return; }
             annos[selected].Title = tbTitle.Text;
             annos[selected].Description = tbDescription.Text;
             annos[selected].HashTags = tbHashtags.Text;
@@ -201,9 +242,7 @@ namespace BBControls
             {
                 if (e.Key == Key.Enter)
                 {
-
                     _player.Position = new TimeSpan(0, 0, TimeStringToSeconds((string)this.MarkerList.SelectedItem));
-
                 }
             }
             catch (Exception)
@@ -214,14 +253,13 @@ namespace BBControls
         }
         private void MarkerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(annos == null)
+            if (annos == null)
             {
                 ClearFields();
                 return;
             }
             try
             {
-
                 tbTitle.Text = annos[MarkerList.SelectedIndex].Title;
                 tbDescription.Text = annos[MarkerList.SelectedIndex].Description;
                 tbHashtags.Text = annos[MarkerList.SelectedIndex].HashTags;
@@ -279,7 +317,36 @@ namespace BBControls
             if (Annotator_tb_LostFocus != null) Annotator_tb_LostFocus(this, new EventArgs());
         }
 
+        private void MarkerList_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (MarkerList.SelectedItem == null) { return; }
+            int selectedIndex = MarkerList.SelectedIndex;
+            if (selectedIndex == -1) { return; }
+            string markerTime = MarkerList.SelectedItem.ToString();
+            ListBoxItem markerItem = MarkerList.SelectedItem as ListBoxItem;
+            var listBoxItem = ItemsControl.ContainerFromElement(MarkerList, e.OriginalSource as DependencyObject) as ListBoxItem;
+            if (e.Delta > 0)
+            {
+                if (annos[selectedIndex].BeginTime < _naturalDuration)
+                {
+                    annos[selectedIndex].BeginTime += 1;
+                }
+            }
+            else
+            {
+                if (annos[selectedIndex].BeginTime > 0)
+                {
+                    annos[selectedIndex].BeginTime -= 1;
+                }
+            }
+            string markTime = convertSecondsToTimeString((double)annos[selectedIndex].BeginTime);
+            string asdf = MarkerList.SelectedValue.ToString();
+            listBoxItem.Content = markTime;
+            ;
 
+            MarkerList.SelectedItem = markTime;
+
+        }
     }
     public class Show
     {
